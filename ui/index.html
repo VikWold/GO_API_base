@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://unpkg.com/htmx.org@2.0.0"></script>
+    <title>Go App</title>
+</head>
+<body>
+    <h1>Welcome</h1>
+    <div id="display-area">
+    </div>
+    
+    <button hx-get="/clicked" hx-target="#display-area">
+        Click to Update
+    </button>
+</body>
+</html>

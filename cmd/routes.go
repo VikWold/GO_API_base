@@ -6,6 +6,11 @@ func (app *application) routes() http.Handler {
 	app.logger.Info("creating new multiplexer")
 	mux := http.NewServeMux()
 
+	//HTMX routes
+	mux.HandleFunc("GET /", app.htmxHandler)
+	mux.HandleFunc("GET /clicked", app.clickedHandler)
+
+	// GO routes
 	mux.HandleFunc("GET /api/v1/user", app.listUsersHandler)
 	mux.HandleFunc("GET /api/v1/user/{id}", app.getUserHandler)
 	mux.HandleFunc("POST /api/v1/user", app.createUserHandler)

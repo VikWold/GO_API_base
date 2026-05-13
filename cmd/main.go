@@ -3,6 +3,7 @@ package main
 import (
 	"database/sql"
 	vcs "go_base_project/internal"
+	"html/template"
 	"log/slog"
 	"os"
 	"time"
@@ -22,6 +23,7 @@ type application struct {
 	logger *slog.Logger
 	models data.Models
 	config *config.Config
+	tmpl   *template.Template
 }
 
 // @version 1.0
@@ -62,9 +64,16 @@ func main() {
 	queryTimeout := time.Duration(cfg.DB.Timeout) * time.Second
 	logger.Info("database connection pool established")
 
+	tmpl, err := template.ParseGlob("./ui/html/*.html")
+	if err != nil {
+		logger.Error("unable to parse templates", "error", err)
+		os.Exit(1)
+	}
+
 	app := &application{
 		logger: instanceLogger,
 		models: data.NewModels(db, &queryTimeout),
+		tmpl:   tmpl,
 	}
 
 	app.logger.Info("Starting API")
