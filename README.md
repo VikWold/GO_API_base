@@ -1,22 +1,33 @@
 # Go base project
 
-This is a project for a simple api for the go backend language. This is to be used to quickly set up a project without the hassel to deal with the setup parts, making sure everything to start the server goes correct   
+This is a project for a simple api for the go backend language. This is to be used to quickly set up a project without the hassel to deal with the setup parts, making sure everything to start the server goes correct.
+
+## 🚀 Quick Setup — Search & Replace
+
+To configure the project for your use, use your editor's **Search and Replace** to find and replace each keyword below across the **entire workspace**.
+
+| Search for | Replace with | Description |
+|---|---|---|
+| `CHANGE_APP_NAME` | Your app/service name | Docker container name in `docker-compose.yaml` |
+| `CHANGE_USERNAME` | Your PostgreSQL username | Database user in `.env` |
+| `CHANGE_PASSWORD` | Your PostgreSQL password | Database password in `.env` |
+| `CHANGE_DATABASE_NAME` | Your database name | Database name in `.env` |
+| `CHANGE_NAME_DB_DSN` | Your chosen DSN env var name | The env var name used for the DB connection string — used in `docker-compose.yaml`, `Makefile`, and `config.go` |
+| `go_base_project` | Your Go module name | Module name in `go.mod` — **also update all import paths** |
+
+> ⚠️ After replacing `go_base_project`, make sure all `import` statements across the project are updated to use your new module name. Most editors will do this automatically via search and replace.
+
+---
 
 Start by changing the **module** name in the **go.mod** file
-
-## What is missing here
-
-As of now this don't include any form of docker compose files, as they have to be placed other placess aswell. This might be a fix down the line to make that part easier aswell.
 
 ## Files and what you need
 
 As this project it made it includes a simple handler and datalayer to deal with users. Here you can easily insert a user with a password, that gets hashed. Not all of this is nessesary for you, and can in that case be removed. Under here you find the files/folders you can remove for this reason.
 
->‼️ Also make sure you fix the imports when you coppy over this file and have changed the **go.mod**, as they are made for this root project as of now. In general you should make your go project, and then past in this base project for a better experience
-
 - Auth package.
 	- This packages is were we have our password hasher, and check to see if the password that comes in are correct
-	- Only needed for a safe loging system as of now, or for users to verify themself to the api
+	- Only needed for a safe authentication system as of now, or for users to verify themself to the api
 
 - Users datalayer
 	- This is a file located in the internal/data folder. This is were you want to place your datalayer, or what is talking with the database directly.

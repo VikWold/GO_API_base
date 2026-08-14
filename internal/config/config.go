@@ -1,9 +1,12 @@
 package config
 
-import "github.com/spf13/viper"
+import (
+	"errors"
+	"os"
+)
 
 type Config struct {
-	DB *DatabaseConfig `json:db`
+	DB *DatabaseConfig
 }
 
 type DatabaseConfig struct {
@@ -12,29 +15,15 @@ type DatabaseConfig struct {
 }
 
 func New() (*Config, error) {
-	viper.AutomaticEnv()
-	viper.AllowEmptyEnv(false)
-	viper.SetConfigName("config")
-	viper.SetConfigType("yaml")
-	viper.AddConfigPath("/app/")
-	viper.AddConfigPath("$HOME/.config/testFagprove")
-	viper.AddConfigPath(".")
-
-	err := viper.ReadInConfig()
-	if err != nil {
-		return nil, err
+	dsn := os.Getenv("CHANGE_NAME_DB_DSN")
+	if dsn == "" {
+		return nil, errors.New("CHANGE_NAME_DB_DSN environment variable is not set")
 	}
 
-	err = viper.BindEnv("db.dsn", "TESTFAGPROVE_DB_DSN")
-	if err != nil {
-		return nil, err
-	}
-
-	var config Config
-	err = viper.Unmarshal(&config)
-	if err != nil {
-		return nil, err
-	}
-
-	return &config, nil
+	return &Config{
+		DB: &DatabaseConfig{
+			DSN:     dsn,
+			Timeout: 30,
+		},
+	}, nil
 }
